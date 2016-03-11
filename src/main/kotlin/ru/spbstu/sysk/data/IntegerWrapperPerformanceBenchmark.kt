@@ -14,123 +14,90 @@ open class IntegerWrapperPerformanceBenchmark {
     @Param("1000")
     var length: Int = 0;
 
-    var bigInteger_a: Array<SysBigInteger> = emptyArray()
-    var bigInteger_b: Array<SysBigInteger> = emptyArray()
+    var bigIntegers: Array<SysBigInteger> = emptyArray()
 
-    var integer_a: Array<SysInteger> = emptyArray()
-    var integer_b: Array<SysInteger> = emptyArray()
+    var integers: Array<SysInteger> = emptyArray()
 
     @Setup
     fun setUp() {
         val mask = -1L ushr (65 - width)
-        val bigIntegers = Random()
+        bigIntegers = Random()
                 .longs()
                 .limit(2L * length)
                 .map { it `&` mask }
                 .mapToObj { SysBigInteger(width, it) }
                 .toArray { i -> Array(i, { ii -> SysBigInteger(width, ii) }) }
-        val integers = Random()
+        integers = Random()
                 .longs()
                 .limit(2L * length)
                 .map { it `&` mask }
                 .mapToObj { SysInteger(width, it) }
                 .toArray { i -> Array(i, { ii -> SysInteger(width, ii) }) }
+    }
 
-        bigInteger_a = bigIntegers.copyOfRange(0, length)
-        bigInteger_b = bigIntegers.copyOfRange(length, 2 * length)
+    var a: SysBigInteger = SysBigInteger(width, 0)
+    var b: SysBigInteger = SysBigInteger(width, 0)
 
-        integer_a = integers.copyOfRange(0, length)
-        integer_b = integers.copyOfRange(length, 2 * length)
+    var aa: SysInteger = SysInteger(width, 0)
+    var bb: SysInteger = SysInteger(width, 0)
+
+    @Setup(Level.Iteration)
+    fun setUpIteration() {
+        a = bigIntegers.randomElement()
+        b = bigIntegers.randomElement()
+
+        aa = integers.randomElement()
+        bb = integers.randomElement()
     }
 
     @Benchmark
     fun testSysBigIntegerPlus(bh: Blackhole) {
-        for (i in bigInteger_a.indices) {
-            val a = bigInteger_a[i]
-            val b = bigInteger_b[i]
-            bh.consume(a + b)
-        }
+        bh.consume(a + b)
     }
 
     @Benchmark
     fun testSysIntegerPlus(bh: Blackhole) {
-        for (i in integer_a.indices) {
-            val a = integer_a[i]
-            val b = integer_b[i]
-            bh.consume(a + b)
-        }
+        bh.consume(aa + bb)
     }
 
     @Benchmark
     fun testSysBigIntegerMinus(bh: Blackhole) {
-        for (i in bigInteger_a.indices) {
-            val a = bigInteger_a[i]
-            val b = bigInteger_b[i]
-            bh.consume(a - b)
-        }
+        bh.consume(a - b)
     }
 
     @Benchmark
     fun testSysIntegerMinus(bh: Blackhole) {
-        for (i in integer_a.indices) {
-            val a = integer_a[i]
-            val b = integer_b[i]
-            bh.consume(a - b)
-        }
+        bh.consume(aa - bb)
     }
 
     @Benchmark
     fun testSysBigIntegerMultiply(bh: Blackhole) {
-        for (i in bigInteger_a.indices) {
-            val a = bigInteger_a[i]
-            val b = bigInteger_b[i]
-            bh.consume(a * b)
-        }
+        bh.consume(a * b)
     }
 
     @Benchmark
     fun testSysIntegerMultiply(bh: Blackhole) {
-        for (i in integer_a.indices) {
-            val a = integer_a[i]
-            val b = integer_b[i]
-            bh.consume(a * b)
-        }
+        bh.consume(aa * bb)
     }
 
     @Benchmark
     fun testSysBigIntegerDiv(bh: Blackhole) {
-        for (i in bigInteger_a.indices) {
-            val a = bigInteger_a[i]
-            val b = bigInteger_b[i]
-            bh.consume(a / b)
-        }
+        bh.consume(a / b)
     }
 
     @Benchmark
     fun testSysIntegerDiv(bh: Blackhole) {
-        for (i in integer_a.indices) {
-            val a = integer_a[i]
-            val b = integer_b[i]
-            bh.consume(a / b)
-        }
+        bh.consume(aa / bb)
     }
 
     @Benchmark
     fun testSysBigIntegerMod(bh: Blackhole) {
-        for (i in bigInteger_a.indices) {
-            val a = bigInteger_a[i]
-            val b = bigInteger_b[i]
-            bh.consume(a % b)
-        }
+        bh.consume(a % b)
     }
 
     @Benchmark
     fun testSysIntegerMod(bh: Blackhole) {
-        for (i in integer_a.indices) {
-            val a = integer_a[i]
-            val b = integer_b[i]
-            bh.consume(a % b)
-        }
+        bh.consume(aa % bb)
     }
 
 }
