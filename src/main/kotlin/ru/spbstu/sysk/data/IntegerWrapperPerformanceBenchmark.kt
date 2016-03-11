@@ -61,4 +61,76 @@ open class IntegerWrapperPerformanceBenchmark {
         }
     }
 
+    @Benchmark
+    fun testSysBigIntegerMinus(bh: Blackhole) {
+        for (i in bigInteger_a.indices) {
+            val a = bigInteger_a[i]
+            val b = bigInteger_b[i]
+            bh.consume(a - b)
+        }
+    }
+
+    @Benchmark
+    fun testSysIntegerMinus(bh: Blackhole) {
+        for (i in integer_a.indices) {
+            val a = integer_a[i]
+            val b = integer_b[i]
+            bh.consume(a - b)
+        }
+    }
+
+    @Benchmark
+    fun testSysBigIntegerMultiply(bh: Blackhole) {
+        for (i in bigInteger_a.indices) {
+            val a = bigInteger_a[i]
+            val b = bigInteger_b[i]
+            bh.consume(a * b)
+        }
+    }
+
+    @Benchmark
+    fun testSysIntegerMultiply(bh: Blackhole) {
+        for (i in integer_a.indices) {
+            val a = integer_a[i]
+            val b = integer_b[i]
+            bh.consume(a * b)
+        }
+    }
+
+    @Benchmark
+    fun testSysBigIntegerDiv(bh: Blackhole) {
+        for (i in bigInteger_a.indices) {
+            val a = bigInteger_a[i]
+            val b = bigInteger_b[i]
+            bh.consume(a / b)
+        }
+    }
+
+    @Benchmark
+    fun testSysIntegerDiv(bh: Blackhole) {
+        for (i in integer_a.indices) {
+            val a = integer_a[i]
+            val b = integer_b[i]
+            bh.consume(a / b)
+        }
+    }
+
+    @Benchmark
+    fun testSysBigIntegerMod(bh: Blackhole) {
+        for (i in bigInteger_a.indices) {
+            val a = bigInteger_a[i]
+            val b = bigInteger_b[i]
+            bh.consume(a % b)
+        }
+    }
+
+    @Benchmark
+    fun testSysIntegerMod(bh: Blackhole) {
+        for (i in integer_a.indices) {
+            val a = integer_a[i]
+            val b = integer_b[i]
+            bh.consume(a % b)
+        }
+    }
+
 }
